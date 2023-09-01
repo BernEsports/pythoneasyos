@@ -18,8 +18,7 @@ def creating_new_user():
         if not new_account_name:
             print("Incorrect name!")
         else:
-            print("Enter your password")
-            new_account_pass = input(">> ")
+            new_account_pass = input("Enter your password\n >> ")
             if not new_account_pass or len(new_account_pass) < 4:
                 print("Incorrect password, min lenght of password should be 4!")
             else:
@@ -34,18 +33,21 @@ def authorization():
 
     """Authorization as first systeem screen as it opens"""
 
-    print("Enter your login")
-    user_login_input = input(">> ")
-    if user_login_input in list_of_users:
-        print("Enter your password")
-        user_password_input = input(">> ")
-        if user_password_input == list_of_users[user_login_input]:
-            print(greetings_message)
-            return True
+    while True:
+        user_login_input = input("Enter your login\n >> ")
+        if user_login_input in list_of_users:
+            print("Enter your password")
+            user_password_input = input(">> ")
+            if user_password_input == list_of_users[user_login_input]:
+                print(greetings_message)
+                return True
+            else:
+                print("Incorrect password")
         else:
-            print("Incorrect password")
-    else:
-        print("Oops, your account not found, do you want to create new? Y/N")
-        creating_new_user()
+            print("Oops, your account not found, do you want to create new? Y/N")
+            creating_new_user()
 
-authorization()
+
+if __name__ == "__main__":
+    authorization()
+
