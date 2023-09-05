@@ -1,8 +1,9 @@
 import os
 from time import sleep
+import re
 
 
-# TODO: Commands: help (list of all commands), creating folders, txt files
+# TODO: Exceptions for every method and help for commands
 
 # dir = show directory ; chdir = change directory ; crf = create folder
 # mktxt = make txt file ; rdtxt = read txt file
@@ -20,8 +21,17 @@ class Terminal:
         }
 
     def show_help(self):
+        help_text = {
+            "help": "Show available commands and their descriptions.",
+            "dir": "Show the current working directory.",
+            "chdir": "Change the current working directory.",
+            "crf": "Create a new folder.",
+            "mktxt": "Create a new text file.",
+            "rdtxt": "Read a text file."
+        }
         for command in self.commands:
-            print(command)
+            print(f"{command}: {help_text.get(command, 'No description available')}")
+    
 
     def show_dir(self):
         print(os.getcwd())
@@ -35,10 +45,12 @@ class Terminal:
     
     def create_folder(self):
         folder_path = input("Enter folder name\n>> ")
-        if not os.path.isdir(folder_path):
-            os.makedirs(folder_path)
+        if folder_path[0].isnumeric():
+            print("Incorrect name, folder name can't start with a number")
+        elif re.search(r'[!@#$%^&*()_+={}\[\]:;"\'<>,.?/~`\\|]', folder_path):
+            print("Incorrect name, folder name can't start with special character")
         else:
-            print("Incorrect path")
+            os.makedirs(folder_path)
 
     def make_txt(self):
         name_of_txt = input("Enter name of txt file you want to create\n>> ")
@@ -63,18 +75,29 @@ def main():
     terminal = Terminal()
 
     while True:
-        user_input = input("Enter a command\n"
-                           ">> ")
-        
-        if user_input.lower() == "exit":
+        try:
+            user_input = input("Enter a command\n"
+                            ">> ")
+            
+            if user_input.lower() == "exit":
+                break
+            
+            if user_input in terminal.commands:
+                terminal.commands[user_input]()
+            else:
+                print("Incorrect command, enter \"help\" for list of available commands\n"
+                    "Or enter \"Exit\" to exit terminal")
+        except EOFError:
+            print("Exiting...")
+            sleep(1)
             break
-         
-        if user_input in terminal.commands:
-            terminal.commands[user_input]()
-        else:
-            print("Incorrect command, enter \"help\" for list of available commands\n"
-                  "Or enter \"Exit\" to exit terminal")
-        
+        except KeyboardInterrupt:
+            print("Incorrect command!")
+            
+            
+            
+            
+            
 if __name__ == "__main__":
     main()
 
