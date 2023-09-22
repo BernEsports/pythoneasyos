@@ -5,8 +5,7 @@ from datetime import datetime
 import shutil
 
 
-# TODO: Exceptions for every method and help for commands,
-# Cancel method for every func that will make it begin from start
+# TODO: 
 
 class Terminal:
     def __init__(self):
@@ -21,7 +20,8 @@ class Terminal:
             "rename": self.rename,
             "copy": self.copy,
             "fsrch": self.fsrch,
-            "delete": self.delete
+            "delete": self.delete,
+            "prnt": self.prnt_text
         }
 
     def show_help(self):
@@ -36,7 +36,8 @@ class Terminal:
             "rename": "Rename file or folder, 'rename test1 test2'",
             "copy": "Copy a file, 'copy book library'",
             "delete": "Delete a file, 'delete filename'",
-            "fsrch": "Search for file, 'search filename'"
+            "fsrch": "Search for file, 'search filename'",
+            "prnt": "Print text in terminal"
         }
         for command in self.commands:
             print(f"{command}: {help_text.get(command, 'No description available')}")
@@ -136,6 +137,10 @@ class Terminal:
             shutil.copy(copy_from, copy_to_path)
         else:
             print("This file doesnt exists")
+            
+    def prnt_text(self, *args):
+        text = ' '.join(args)
+        print(text)
         
 
 def main():
@@ -173,6 +178,6 @@ def main():
             print("Incorrect args for a command!")
             
                 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 

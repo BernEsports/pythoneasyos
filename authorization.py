@@ -50,4 +50,7 @@ def authorization():
 
 if __name__ == "__main__":
     authorization()
+    creating_new_user()
+    
+    
 
